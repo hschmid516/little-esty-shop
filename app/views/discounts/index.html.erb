@@ -1,0 +1,10 @@
+<h1><%=@merchant.name%></h1>
+
+<h3>My Discounts</h3>
+<% @merchant.discounts.each do |discount| %>
+  <div id="discount-<%= discount.id %>">
+    <%= discount.name %>
+    <%= discount.percentage %>
+    <%= discount.threshold %>
+  </div>
+<% end %>
