@@ -28,6 +28,10 @@ RSpec.configure do |config|
     json_response3 = File.read('spec/fixtures/contributors.json')
     stub_request(:get, 'https://api.github.com/repos/hschmid516/little-esty-shop/stats/contributors').
       to_return(status: 200, body: json_response3)
+
+    json_response4 = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+      to_return(status: 200, body: json_response4)
   end
 
   config.before :each, type: :feature do |test|
