@@ -111,7 +111,19 @@ RSpec.describe 'Admin Invoices Index' do
 
       expect(page).to have_content("Incorrect Information. Please submit again.")
     end
+  end
 
+  describe 'User Story 4: Merchant Bulk Discount Delete' do
+    it 'shows a delete button for each bulk discount' do
+      expect(page).to have_content(@discount1.id)
 
+      within("#discount-#{@discount1.id}") do
+        expect(page).to have_link("Delete This Discount")
+        click_link("Delete This Discount")
+      end
+
+      expect(page).to have_content('The bulk discount was deleted successfully.')
+      expect(page).to_not have_content(@discount1.id)
+    end
   end
 end
