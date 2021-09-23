@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Admin Invoices Index' do
+RSpec.describe 'Merchant Bulk Discounts Index' do
   before :each do
     @merch1 = create(:merchant)
     @discount1 = @merch1.bulk_discounts.create!(percentage_discount: 10, quantity_threshold: 10)
