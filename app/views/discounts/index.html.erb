@@ -7,6 +7,7 @@
       <li><%= discount.name %></li>
       <li><%= discount.percentage %></li>
       <li><%= discount.threshold %></li>
+      <li><%= link_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete %></li>
     </ul>
   </div>
 <% end %>
