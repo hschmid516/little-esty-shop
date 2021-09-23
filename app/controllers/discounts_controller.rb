@@ -1,5 +1,7 @@
 class DiscountsController < ApplicationController
   before_action :find_merchant
+  before_action :find_discount, only: [:show, :destroy]
+
   def index
     @holidays = DiscountFacade.new.holiday_api
   end
@@ -14,8 +16,7 @@ class DiscountsController < ApplicationController
   end
 
   def destroy
-    discount = Discount.find(params[:id])
-    discount.destroy
+    @discount.destroy
     redirect_to merchant_discounts_path(@merchant)
   end
 
@@ -27,5 +28,9 @@ class DiscountsController < ApplicationController
 
   def find_merchant
     @merchant = Merchant.find(params[:merchant_id])
+  end
+
+  def find_discount
+    @discount = Discount.find(params[:id])
   end
 end
