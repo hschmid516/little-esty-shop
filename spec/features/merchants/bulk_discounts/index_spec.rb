@@ -97,6 +97,21 @@ RSpec.describe 'Admin Invoices Index' do
       expect(page).to have_content(888)
     end
 
+    it 'gives you an error if form incorrectly filled out' do
+      click_link("Create a New Discount")
+
+      expect(current_path).to eq(new_merchant_bulk_discount_path(@merch1))
+
+      expect(page).to have_field(:bulk_discount_percentage_discount)
+      expect(page).to have_field(:bulk_discount_quantity_threshold)
+      expect(page).to have_button("Create Bulk discount")
+      fill_in(:bulk_discount_percentage_discount, with: 999)
+
+      click_button("Create Bulk discount")
+
+      expect(page).to have_content("Incorrect Information. Please submit again.")
+    end
+
 
   end
 end
