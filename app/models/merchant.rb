@@ -1,5 +1,6 @@
 class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
+  has_many :discounts, dependent: :destroy
   validates :name, presence: true
 
   enum status: {

@@ -1,0 +1,24 @@
+<h1><%=@merchant.name%></h1>
+
+<h3>My Discounts</h3>
+<% @merchant.discounts.each do |discount| %>
+  <div id="discount-<%= discount.id %>">
+    <ul>
+      <li><%= discount.name %></li>
+      <li><%= discount.percentage %></li>
+      <li><%= discount.threshold %></li>
+      <li><%= link_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete %></li>
+    </ul>
+  </div>
+<% end %>
+
+<p><%= link_to 'Create New Discount', new_merchant_discount_path(@merchant) %></p>
+
+<div id="holidays">
+  <h1>Upcoming Holidays</h1>
+  <% @holidays.each do |holiday| %>
+    <ul>
+      <li>Holiday: <%= holiday.name %> Date: <%= holiday.date %></li>
+    </ul>
+  <% end %>
+</div>

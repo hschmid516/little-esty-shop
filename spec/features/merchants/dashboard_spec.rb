@@ -53,6 +53,9 @@ describe 'merchant dashboard page' do
     create(:transaction, invoice: @invoice8, result: 'success')
     create(:transaction, invoice: @invoice8, result: 'success')
     create(:transaction, invoice: @invoice8, result: 'success')
+    json = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v2/NextPublicHolidays/us").
+      to_return(status: 200, body: json)
     visit merchant_dashboard_path(@merch1)
   end
 
@@ -135,5 +138,11 @@ describe 'merchant dashboard page' do
     within("#item-#{@item1.id}") do
       expect(page).to have_content(@invoice1.created_at_formatted)
     end
+  end
+
+  it 'has a link to all discounts' do
+    click_link("My Discounts")
+
+    expect(current_path).to eq(merchant_discounts_path(@merch1))
   end
 end
