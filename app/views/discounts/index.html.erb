@@ -11,6 +11,8 @@
   </div>
 <% end %>
 
+<p><%= link_to 'Create New Discount', new_merchant_discount_path(@merchant) %></p>
+
 <div id="holidays">
   <h1>Upcoming Holidays</h1>
   <% @holidays.each do |holiday| %>
