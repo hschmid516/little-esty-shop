@@ -18,7 +18,7 @@ class MerchantItemsController < ApplicationController
 
     if params[:enable]
       redirect_to merchant_items_path(merchant)
-    elsif
+    else
       flash[:notice] = "Item has been updated succesfully"
       redirect_to merchant_item_path(merchant, item)
     end
