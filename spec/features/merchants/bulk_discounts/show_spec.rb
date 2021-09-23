@@ -45,7 +45,7 @@ RSpec.describe 'Merchant Bulk Discounts Show' do
     it 'redirects you to an edit form' do
       expect(page).to_not have_content(999)
       expect(page).to_not have_content(888)
-      
+
       click_link("Edit Discount")
 
       expect(current_path).to eq(edit_merchant_bulk_discount_path(@merch1, @discount1))
@@ -61,7 +61,6 @@ RSpec.describe 'Merchant Bulk Discounts Show' do
 
       expect(page).to have_content(999)
       expect(page).to have_content(888)
-
     end
   end
 end
