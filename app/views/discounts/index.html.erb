@@ -3,8 +3,19 @@
 <h3>My Discounts</h3>
 <% @merchant.discounts.each do |discount| %>
   <div id="discount-<%= discount.id %>">
-    <%= discount.name %>
-    <%= discount.percentage %>
-    <%= discount.threshold %>
+    <ul>
+      <li><%= discount.name %></li>
+      <li><%= discount.percentage %></li>
+      <li><%= discount.threshold %></li>
+    </ul>
   </div>
 <% end %>
+
+<div id="holidays">
+  <h1>Upcoming Holidays</h1>
+  <% @holidays.each do |holiday| %>
+    <ul>
+      <li>Holiday: <%= holiday.name %> Date: <%= holiday.date %></li>
+    </ul>
+  <% end %>
+</div>
