@@ -26,11 +26,12 @@ RSpec.describe 'Admin Invoices Index' do
     create(:transaction, invoice: @invoice2, result: 'success')
     create(:transaction, invoice: @invoice3, result: 'success')
     create(:transaction, invoice: @invoice3, result: 'success')
+
+    visit merchant_bulk_discounts_path(@merch1)
   end
 
   describe 'Merchant Bulk Discounts Index' do
     it 'displays information about all bulk discounts' do
-      visit merchant_bulk_discounts_path(@merch1)
       expect(page).to have_content(@merch1.name)
       # save_and_open_page
       within("#discount-#{@discount1.id}") do
@@ -62,5 +63,18 @@ RSpec.describe 'Admin Invoices Index' do
 
       expect(current_path).to eq(merchant_bulk_discount_path(@merch1, @discount1))
     end
+  end
+
+  describe 'User story 2: Upcoming Holidays' do
+    it 'shows next 3 upcoming holidays' do
+      expect(page).to have_content("Upcoming Holidays")
+      expect(page).to have_content("Columbus Day")
+      expect(page).to have_content("Veterans Day")
+      expect(page).to have_content("Thanksgiving Day")
+    end
+  end
+
+  describe 'User Story 3: Merchant Bulk Discount Create' do
+    
   end
 end
