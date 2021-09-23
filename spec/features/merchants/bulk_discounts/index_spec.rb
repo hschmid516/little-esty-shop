@@ -37,4 +37,27 @@ RSpec.describe 'merchant bulk discounts index' do
       expect(page).to have_content('h')
     end
   end
+
+  it 'can create new discount' do
+    click_link("Create New Discount")
+
+    expect(current_path).to eq(new_merchant_discount_path(@merch1))
+
+    fill_in('Name', with: 'Ultra Saver')
+    fill_in('Discount Percentage', with: 0.75)
+    fill_in('Quantity Threshold', with: 4)
+    click_button('Create Discount')
+
+    expect(current_path).to eq(merchant_discounts_path(@merch1))
+
+    expect(page).to have_content('Ultra Saver')
+    expect(page).to have_content(0.75)
+    expect(page).to have_content(4)
+  end
+
+  it 'can delete a discount' do
+    within
+  end
 end
+
+# save_and_open_page
