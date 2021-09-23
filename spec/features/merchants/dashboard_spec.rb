@@ -136,4 +136,10 @@ describe 'merchant dashboard page' do
       expect(page).to have_content(@invoice1.created_at_formatted)
     end
   end
+
+  it 'has a link to all discounts' do
+    click_link("My Discounts")
+
+    expect(current_path).to eq(merchant_discounts_path(@merch1))
+  end
 end
