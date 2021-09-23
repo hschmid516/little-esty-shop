@@ -7,6 +7,9 @@ RSpec.describe 'merchant bulk discounts index' do
     @disc1 = @merch1.discounts.create(name: 'BOGOHO', percentage: 0.25, threshold: 2)
     @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.50, threshold: 3)
     @disc3 = @merch2.discounts.create(name: 'Other Discount', percentage: 0.50, threshold: 3)
+    json = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v2/NextPublicHolidays/us").
+      to_return(status: 200, body: json)
     visit merchant_discounts_path(@merch1)
   end
 
@@ -24,5 +27,14 @@ RSpec.describe 'merchant bulk discounts index' do
     end
 
     expect(page).to_not have_content(@disc3.name)
+  end
+
+  it 'shows next 3 holidays' do
+    within('#holidays') do
+      within('h1') do
+        expect(page).to have_content('Upcoming Holidays')
+      end
+      expect(page).to have_content('h')
+    end
   end
 end

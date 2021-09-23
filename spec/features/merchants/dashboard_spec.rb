@@ -53,6 +53,9 @@ describe 'merchant dashboard page' do
     create(:transaction, invoice: @invoice8, result: 'success')
     create(:transaction, invoice: @invoice8, result: 'success')
     create(:transaction, invoice: @invoice8, result: 'success')
+    json = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v2/NextPublicHolidays/us").
+      to_return(status: 200, body: json)
     visit merchant_dashboard_path(@merch1)
   end
 
