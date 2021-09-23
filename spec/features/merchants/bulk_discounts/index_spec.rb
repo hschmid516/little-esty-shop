@@ -75,6 +75,28 @@ RSpec.describe 'Admin Invoices Index' do
   end
 
   describe 'User Story 3: Merchant Bulk Discount Create' do
-    
+    it 'has a link to create a new discount' do
+      expect(page).to have_link("Create a New Discount")
+    end
+
+    it 'links you to a new page with a create discount form' do
+      click_link("Create a New Discount")
+
+      expect(current_path).to eq(new_merchant_bulk_discount_path(@merch1))
+
+      expect(page).to have_field(:bulk_discount_percentage_discount)
+      expect(page).to have_field(:bulk_discount_quantity_threshold)
+      expect(page).to have_button("Create Bulk discount")
+      fill_in(:bulk_discount_percentage_discount, with: 999)
+      fill_in(:bulk_discount_quantity_threshold, with: 888)
+      click_button("Create Bulk discount")
+
+      expect(current_path).to eq(merchant_bulk_discounts_path(@merch1))
+
+      expect(page).to have_content(999)
+      expect(page).to have_content(888)
+    end
+
+
   end
 end
