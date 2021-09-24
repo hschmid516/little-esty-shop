@@ -3,6 +3,7 @@
 <p>Status: <%= @invoice.status %></p>
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
 <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %></p>
+<p>Total Discounted Revenue: <%= number_to_currency(@invoice.invoice_items.total_amount_discounted_revenue) %></p>
 <p>Customer Name: <%= @invoice.customer_by_id.first_name %> <%= @invoice.customer_by_id.last_name %></p>
 
 <table class="table table-hover">
