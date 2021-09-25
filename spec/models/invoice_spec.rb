@@ -29,9 +29,9 @@ RSpec.describe Invoice, type: :model do
       @invoice6 = create(:invoice, customer: @cust6)
       @invoice7 = create(:invoice, customer: @cust7)
       @invoice8 = create(:invoice, customer: @cust7)
-      InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 3, unit_price: 1000)
-      InvoiceItem.create(item: @item2, invoice: @invoice2, status: 1)
-      InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
+      @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
+      @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 9, unit_price: 4000)
+      @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
       InvoiceItem.create(item: @item1, invoice: @invoice2)
       InvoiceItem.create(item: @item1, invoice: @invoice3)
       InvoiceItem.create(item: @item1, invoice: @invoice4)
@@ -55,6 +55,9 @@ RSpec.describe Invoice, type: :model do
       create(:transaction, invoice: @invoice6, result: 'success')
       create(:transaction, invoice: @invoice6, result: 'success')
       create(:transaction, invoice: @invoice6, result: 'success')
+      @disc3 = @merch1.discounts.create(name: 'Mad deals', percentage: 0.75, threshold: 20)
+      @disc1 = @merch1.discounts.create(name: 'Fall Special', percentage: 0.25, threshold: 10)
+      @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.50, threshold: 15)
     end
 
     it '#created_at_formatted' do
@@ -78,7 +81,13 @@ RSpec.describe Invoice, type: :model do
     end
 
     it '#total_revenue' do
-      expect(@invoice1.total_revenue).to eq(3000)
+      expect(@invoice1.total_revenue).to eq(76000)
+    end
+
+    it '#discounted_revenue' do
+      Discounter.call(@merch1)
+
+      expect(@invoice1.discounted_revenue).to eq(49750)
     end
   end
 end
