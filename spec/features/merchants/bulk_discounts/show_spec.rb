@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'merchant bulk discounts show page' do
   before :each do
     @merch1 = create(:merchant)
-    @disc1 = @merch1.discounts.create(name: 'BOGOHO', percentage: 0.25, threshold: 2)
+    @disc1 = @merch1.discounts.create(name: 'Fall Special', percentage: 0.25, threshold: 2)
     @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.50, threshold: 3)
     visit merchant_discount_path(@merch1, @disc1)
   end
