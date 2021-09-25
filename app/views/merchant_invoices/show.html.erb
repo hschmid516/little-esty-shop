@@ -2,7 +2,8 @@
 
 <p>Status: <%= @invoice.status %></p>
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
-<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %></p>
+<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
+<p>Total Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue.fdiv(100)) %></p>
 <p>Customer Name: <%= @invoice.customer_by_id.first_name %> <%= @invoice.customer_by_id.last_name %></p>
 
 <table class="table table-hover">
@@ -19,7 +20,7 @@
       <tr>
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
-        <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id)) %></td>
+        <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id).fdiv(100)) %></td>
         <td><%= form_with model: invoice_item, local: true do |f| %>
               <%= f.hidden_field :merchant_id, value: invoice_item.item.merchant.id %>
               <%= f.hidden_field :invoice_id, value: @invoice.id %>
