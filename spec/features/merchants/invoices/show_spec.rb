@@ -118,9 +118,26 @@ RSpec.describe 'Merchant Invoices Show page' do
 
   describe 'Discounts: User Story 7: Merchant Invoice Show page: Total Revenue and Discounted Revenue' do
     it 'shows total revenue and discounted revenue' do
-      save_and_open_page
       expect(page).to have_content('$550.00')
       expect(page).to have_content("Total Discounted Revenue: $495.00")
+    end
+  end
+
+  describe 'Discounts: User Story 8: Merchant Invoice Show Page: Link to applied discounts' do
+    it 'shows a link to all bulk discounts applied(if any)' do
+      expect(page).to have_content('Bulk Discounts')
+      expect(page).to have_link("#{@discount1.id}")
+    end
+
+    it 'redirects you to a bulk discount show page' do
+      within("#ii-bd-#{@ii2.id}") do
+        expect(page).to have_link("#{@discount1.id}")
+        click_link("#{@discount1.id}")
+      end
+
+      expect(current_path).to eq(merchant_bulk_discount_path(@merch1, @discount1))
+      expect(page).to have_content(@discount1.percentage_discount)
+      expect(page).to have_content(@discount1.quantity_threshold)
     end
   end
 end

@@ -4,6 +4,14 @@
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
 <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
 <p>Total Discounted Revenue: <%= number_to_currency(@invoice.invoice_items.total_amount_discounted_revenue.fdiv(100)) %></p>
+<p>Bulk Discounts:</p><br>
+  <% @invoice.invoice_items.each do |ii| %>
+  <div id="ii-bd-<%= ii.id %>">
+    <% if ii.max_discount %>
+      <%= link_to ii.find_max_discount_id, merchant_bulk_discount_path(@merchant, ii.max_discount) %><br>
+    <% end  %><br>
+  </div>
+  <% end  %><br>
 <p>Customer Name: <%= @invoice.customer_by_id.first_name %> <%= @invoice.customer_by_id.last_name %></p>
 
 <table class="table table-hover">
