@@ -81,7 +81,7 @@ RSpec.describe 'Merchant Invoices Show page' do
   end
 
   it 'shows total revenue' do
-    expect(page).to have_content('$55,000')
+    expect(page).to have_content('$550.00')
   end
 
   it 'has a select box for invoice status' do
@@ -119,8 +119,8 @@ RSpec.describe 'Merchant Invoices Show page' do
   describe 'Discounts: User Story 7: Merchant Invoice Show page: Total Revenue and Discounted Revenue' do
     it 'shows total revenue and discounted revenue' do
       save_and_open_page
-      expect(page).to have_content('$55,000.00')
-      expect(page).to have_content("Total Discounted Revenue: $49,500.00")
+      expect(page).to have_content('$550.00')
+      expect(page).to have_content("Total Discounted Revenue: $495.00")
     end
   end
 end
