@@ -28,6 +28,10 @@ class InvoiceItem < ApplicationRecord
     end
   end
 
+  def find_max_discount_id
+    max_discount.id
+  end
+
   def self.total_amount_discounted_revenue
     total_revenue - revenue_discount
   end
