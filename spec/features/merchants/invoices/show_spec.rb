@@ -126,17 +126,25 @@ RSpec.describe 'Merchant Invoices Show page' do
   it 'has link to discount if applicable' do
     within("#table-#{@ii1.id}") do
       @ii1.reload
-      expect(page).to have_content("#{@ii1.discount * 100}%")
+      click_link("#{@ii1.discount * 100}%")
     end
+
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc2))
+
+    visit merchant_invoice_path(@merch1, @invoice1)
 
     within("#table-#{@ii2.id}") do
       @ii2.reload
       expect(page).to_not have_content('Discount:')
     end
 
+    visit merchant_invoice_path(@merch1, @invoice1)
+
     within("#table-#{@ii3.id}") do
       @ii3.reload
-      expect(page).to have_content("#{@ii3.discount * 100}%")
+        click_link("#{@ii3.discount * 100}%")
     end
+
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc3))
   end
 end
