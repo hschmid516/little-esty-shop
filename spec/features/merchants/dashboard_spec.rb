@@ -70,6 +70,12 @@ describe 'merchant dashboard page' do
     click_link("My Invoices")
 
     expect(current_path).to eq(merchant_invoices_path(@merch1))
+
+    visit merchant_dashboard_path(@merch1)
+
+    click_link("See All Bulk Discounts")
+    
+    expect(current_path).to eq(merchant_bulk_discounts_path(@merch1))
   end
 
   it 'shows names of top 5 customers and their successful transactions' do

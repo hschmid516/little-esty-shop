@@ -1,8 +1,10 @@
 class Invoice < ApplicationRecord
   belongs_to :customer
+
   has_many :transactions, dependent: :destroy
   has_many :invoice_items, dependent: :destroy
   has_many :items, through: :invoice_items
+  has_many :merchants, through: :items
 
   enum status: {
     'in progress': 0,
@@ -32,5 +34,13 @@ class Invoice < ApplicationRecord
 
   def total_revenue
     invoice_items.where(invoice_id: id).sum('quantity * unit_price')
+  end
+
+  def total_revenue_by_merchant_id(merchant_id)
+    invoice_items_by_merchant_id(merchant_id).sum('invoice_items.quantity * invoice_items.unit_price')
+  end
+
+  def invoice_items_by_merchant_id(merchant_id)
+    invoice_items.joins(item: :merchant).where(items: {merchant_id: merchant_id})
   end
 end

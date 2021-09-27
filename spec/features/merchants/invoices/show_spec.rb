@@ -4,6 +4,10 @@ RSpec.describe 'Merchant Invoices Show page' do
   before(:each) do
     @merch1 = create(:merchant)
     @merch2 = create(:merchant)
+    @discount1 = @merch1.bulk_discounts.create!(percentage_discount: 10, quantity_threshold: 10)
+    @discount2 = @merch1.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 20)
+    @discount3 = @merch2.bulk_discounts.create!(percentage_discount: 30, quantity_threshold: 30)
+    @merch2 = create(:merchant)
     @cust1 = create(:customer)
     @cust2 = create(:customer)
     @cust3 = create(:customer)
@@ -26,7 +30,9 @@ RSpec.describe 'Merchant Invoices Show page' do
     @invoice7 = create(:invoice, customer: @cust7)
     @invoice8 = create(:invoice, customer: @cust7)
     @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
-    @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 11, unit_price: 4000)
+    @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 10, unit_price: 4000)
+    @ii3 = InvoiceItem.create(item: @item4, invoice: @invoice2, status: 1, quantity: 15, unit_price: 1000)
+    @ii4 = InvoiceItem.create(item: @item5, invoice: @invoice2, status: 1, quantity: 30, unit_price: 4000)
     InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
     InvoiceItem.create(item: @item1, invoice: @invoice2)
     InvoiceItem.create(item: @item1, invoice: @invoice3)
@@ -78,7 +84,7 @@ RSpec.describe 'Merchant Invoices Show page' do
   end
 
   it 'shows total revenue' do
-    expect(page).to have_content('$59,000')
+    expect(page).to have_content('$550.00')
   end
 
   it 'has a select box for invoice status' do
@@ -110,6 +116,32 @@ RSpec.describe 'Merchant Invoices Show page' do
 
     within("#table-#{@ii2.id}") do
       expect(find(:css, 'select#invoice_item_status').value ).to eq('pending')
+    end
+  end
+
+  describe 'Discounts: User Story 7: Merchant Invoice Show page: Total Revenue and Discounted Revenue' do
+    it 'shows total revenue and discounted revenue' do
+      expect(page).to have_content('$550.00')
+      expect(page).to have_content("Total Discounted Revenue: $495.00")
+    end
+  end
+
+  describe 'Discounts: User Story 8: Merchant Invoice Show Page: Link to applied discounts' do
+    it 'shows a link to all bulk discounts applied(if any)' do
+      expect(page).to have_content('Bulk Discounts')
+      expect(page).to have_link("#{@discount1.id}")
+    end
+
+    it 'redirects you to a bulk discount show page' do
+      save_and_open_page
+      within("#ii-bd-#{@ii2.id}") do
+        expect(page).to have_link("#{@discount1.id}")
+        click_link("#{@discount1.id}")
+      end
+
+      expect(current_path).to eq(merchant_bulk_discount_path(@merch1, @discount1))
+      expect(page).to have_content(@discount1.percentage_discount)
+      expect(page).to have_content(@discount1.quantity_threshold)
     end
   end
 end
