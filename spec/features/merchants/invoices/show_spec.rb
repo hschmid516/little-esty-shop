@@ -28,7 +28,7 @@ RSpec.describe 'Merchant Invoices Show page' do
     @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
     @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 9, unit_price: 4000)
     @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
-    @ii4 = InvoiceItem.create(item: @item4, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
+    @ii4 = InvoiceItem.create(item: @item4, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1001)
     InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
     InvoiceItem.create(item: @item1, invoice: @invoice2)
     InvoiceItem.create(item: @item1, invoice: @invoice3)

@@ -91,10 +91,16 @@ RSpec.describe Invoice, type: :model do
       expect(@invoice1.total_merchant_revenue(@merch1.id)).to eq(76000)
     end
 
+    it '#discounted_merchant_revenue' do
+      Discounter.call(@merch1)
+
+      expect(@invoice1.discounted_merchant_revenue(@merch1.id)).to eq(49750)
+    end
+
     it '#discounted_revenue' do
       Discounter.call(@merch1)
 
-      expect(@invoice1.discounted_revenue(@merch1.id)).to eq(49750)
+      expect(@invoice1.discounted_merchant_revenue(@merch1.id)).to eq(49750)
     end
 
     it '#merchant_invoice_items' do
