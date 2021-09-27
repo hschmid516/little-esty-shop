@@ -27,7 +27,6 @@ RSpec.describe Item, type: :model do
     @ii = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 3, unit_price: 1000)
     InvoiceItem.create(item: @item2, invoice: @invoice2, status: 1)
     InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
-
   end
 
   it "shows only enabled items" do
@@ -44,5 +43,13 @@ RSpec.describe Item, type: :model do
 
   it "#revenue" do
     expect(@item1.revenue).to eq(@ii.unit_price * @ii.quantity)
+  end
+
+  it '#invoice_items_by_merchant_id' do
+    expect(@invoice1.invoice_items_by_merchant_id(@merch1.id)).to eq([@ii])
+  end
+
+  it '#total_revenue_by_merchant_id' do
+    expect(@invoice1.total_revenue_by_merchant_id(@merch1.id)).to eq(3000)
   end
 end
