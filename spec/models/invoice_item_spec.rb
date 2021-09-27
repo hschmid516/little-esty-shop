@@ -70,4 +70,8 @@ RSpec.describe InvoiceItem, type: :model do
   it '#find_by_id' do
     expect(InvoiceItem.find_by_id(@ii1.id)).to eq(@ii1)
   end
+
+  it '#find_discount' do
+    expect(@ii1.find_discount(0.75)).to eq(@disc3)
+  end
 end
