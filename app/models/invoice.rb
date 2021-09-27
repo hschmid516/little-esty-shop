@@ -30,12 +30,22 @@ class Invoice < ApplicationRecord
     invoice_items.where(item_id: item_id).first.status
   end
 
+  def total_merchant_revenue(merchant_id)
+    invoice_items.joins(:item)
+                 .where('items.merchant_id = ?', merchant_id)
+                 .sum('quantity * invoice_items.unit_price')
+  end
+
   def total_revenue
     invoice_items.sum('quantity * unit_price')
   end
 
-  def discounted_revenue
+  def discounted_revenue(merchant_id)
     discount = invoice_items.sum('quantity * unit_price * discount')
-    total_revenue - discount
+    total_merchant_revenue(merchant_id) - discount
+  end
+
+  def merchant_invoice_items(merchant_id)
+    invoice_items.joins(:item).where('items.merchant_id = ?', merchant_id)
   end
 end

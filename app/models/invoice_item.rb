@@ -19,4 +19,8 @@ class InvoiceItem < ApplicationRecord
   def self.find_by_id(id)
     find(id)
   end
+
+  def find_discount(percent)
+    Discount.find_by(percentage: percent)
+  end
 end

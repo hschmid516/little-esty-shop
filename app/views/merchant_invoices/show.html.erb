@@ -2,8 +2,8 @@
 
 <p>Status: <%= @invoice.status %></p>
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
-<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
-<p>Total Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue.fdiv(100)) %></p>
+<p>Total Revenue: <%= number_to_currency(@invoice.total_merchant_revenue(params[:merchant_id]).fdiv(100)) %></p>
+<p>Total Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue(params[:merchant_id]).fdiv(100)) %></p>
 <p>Customer Name: <%= @invoice.customer_by_id.first_name %> <%= @invoice.customer_by_id.last_name %></p>
 
 <table class="table table-hover">
@@ -15,10 +15,13 @@
       <th scope="col">Status</th>
     </tr>
   </thead>
-  <% @invoice.invoice_items.each do |invoice_item| %>
+  <% @invoice.merchant_invoice_items(params[:merchant_id]).each do |invoice_item| %>
     <div id="table-<%= invoice_item.id %>">
       <tr>
-        <td><%= invoice_item.item.name %></td>
+        <td><%= invoice_item.item.name %>
+          <% unless invoice_item.discount.nil? %>
+            - Discount Applied: <%= link_to "#{invoice_item.discount * 100}% (#{invoice_item.find_discount(invoice_item.discount).name})", merchant_discount_path(invoice_item.find_discount(invoice_item.discount)) %>
+          <% end %></td>
         <td><%= invoice_item.quantity %></td>
         <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id).fdiv(100)) %></td>
         <td><%= form_with model: invoice_item, local: true do |f| %>
