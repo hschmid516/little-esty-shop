@@ -28,6 +28,7 @@ RSpec.describe 'Merchant Invoices Show page' do
     @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
     @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 9, unit_price: 4000)
     @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
+    @ii4 = InvoiceItem.create(item: @item4, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
     InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
     InvoiceItem.create(item: @item1, invoice: @invoice2)
     InvoiceItem.create(item: @item1, invoice: @invoice3)
@@ -120,5 +121,22 @@ RSpec.describe 'Merchant Invoices Show page' do
 
   it 'shows discounted revenue' do
     expect(page).to have_content('Total Discounted Revenue: $497.50')
+  end
+
+  it 'has link to discount if applicable' do
+    within("#table-#{@ii1.id}") do
+      @ii1.reload
+      expect(page).to have_content("#{@ii1.discount * 100}%")
+    end
+
+    within("#table-#{@ii2.id}") do
+      @ii2.reload
+      expect(page).to_not have_content('Discount:')
+    end
+
+    within("#table-#{@ii3.id}") do
+      @ii3.reload
+      expect(page).to have_content("#{@ii3.discount * 100}%")
+    end
   end
 end
