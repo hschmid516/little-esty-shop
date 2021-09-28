@@ -34,6 +34,7 @@ RSpec.describe Invoice, type: :model do
       @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
       @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 9, unit_price: 4000)
       @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
+      @ii4 = InvoiceItem.create(item: @item4, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
       InvoiceItem.create(item: @item4, invoice: @invoice1)
       InvoiceItem.create(item: @item1, invoice: @invoice2)
       InvoiceItem.create(item: @item1, invoice: @invoice3)
@@ -84,7 +85,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     it '#total_revenue' do
-      expect(@invoice1.total_revenue).to eq(76000)
+      expect(@invoice1.total_revenue).to eq(101000)
     end
 
     it '#total_merchant_revenue' do
@@ -92,15 +93,15 @@ RSpec.describe Invoice, type: :model do
     end
 
     it '#discounted_merchant_revenue' do
-      Discounter.call(@merch1)
+      Discounter.call(@invoice1)
 
       expect(@invoice1.discounted_merchant_revenue(@merch1.id)).to eq(49750)
     end
 
     it '#discounted_revenue' do
-      Discounter.call(@merch1)
+      Discounter.call(@invoice1)
 
-      expect(@invoice1.discounted_merchant_revenue(@merch1.id)).to eq(49750)
+      expect(@invoice1.discounted_revenue).to eq(74750)
     end
 
     it '#merchant_invoice_items' do
