@@ -26,7 +26,9 @@ RSpec.describe 'Merchant Invoices Show page' do
     @invoice7 = create(:invoice, customer: @cust7)
     @invoice8 = create(:invoice, customer: @cust7)
     @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
-    @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 11, unit_price: 4000)
+    @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 9, unit_price: 4000)
+    @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1000)
+    @ii4 = InvoiceItem.create(item: @item4, invoice: @invoice1, status: 1, quantity: 25, unit_price: 1001)
     InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
     InvoiceItem.create(item: @item1, invoice: @invoice2)
     InvoiceItem.create(item: @item1, invoice: @invoice3)
@@ -51,6 +53,10 @@ RSpec.describe 'Merchant Invoices Show page' do
     create(:transaction, invoice: @invoice6, result: 'success')
     create(:transaction, invoice: @invoice6, result: 'success')
     create(:transaction, invoice: @invoice6, result: 'success')
+    @disc3 = @merch1.discounts.create(name: 'Mad deals', percentage: 0.75, threshold: 20)
+    @disc1 = @merch1.discounts.create(name: 'Fall Special', percentage: 0.25, threshold: 10)
+    @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.50, threshold: 15)
+    @disc4 = @merch2.discounts.create(name: 'Lame Deal', percentage: 0.05, threshold: 100)
     visit merchant_invoice_path(@merch1, @invoice1)
   end
 
@@ -64,21 +70,21 @@ RSpec.describe 'Merchant Invoices Show page' do
   it 'Shows all items on the invoice' do
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item2.name)
+    expect(page).to have_content(@item3.name)
     expect(page).to have_content(@ii1.quantity)
     expect(page).to have_content(@ii2.quantity)
-    expect(page).to have_content('$1,000.00')
-    expect(page).to have_content('$4,000.00')
+    expect(page).to have_content('$10.00')
+    expect(page).to have_content('$40.00')
     expect(page).to have_content(@invoice1.item_status(@item1.id))
     expect(page).to have_content(@invoice1.item_status(@item2.id))
 
-    expect(page).to_not have_content(@item3.name)
     expect(page).to_not have_content(@item4.name)
     expect(page).to_not have_content(@item5.name)
     expect(page).to_not have_content(@item6.name)
   end
 
   it 'shows total revenue' do
-    expect(page).to have_content('$59,000')
+    expect(page).to have_content('Total Revenue: $760.00')
   end
 
   it 'has a select box for invoice status' do
@@ -111,5 +117,34 @@ RSpec.describe 'Merchant Invoices Show page' do
     within("#table-#{@ii2.id}") do
       expect(find(:css, 'select#invoice_item_status').value ).to eq('pending')
     end
+  end
+
+  it 'shows discounted revenue' do
+    expect(page).to have_content('Total Discounted Revenue: $497.50')
+  end
+
+  it 'has link to discount if applicable' do
+    within("#table-#{@ii1.id}") do
+      @ii1.reload
+      click_link("#{@ii1.discount * 100}%")
+    end
+
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc2))
+
+    visit merchant_invoice_path(@merch1, @invoice1)
+
+    within("#table-#{@ii2.id}") do
+      @ii2.reload
+      expect(page).to_not have_content('Discount:')
+    end
+
+    visit merchant_invoice_path(@merch1, @invoice1)
+
+    within("#table-#{@ii3.id}") do
+      @ii3.reload
+        click_link("#{@ii3.discount * 100}%")
+    end
+
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc3))
   end
 end

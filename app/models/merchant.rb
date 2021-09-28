@@ -1,6 +1,7 @@
 class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :discounts, dependent: :destroy
+  has_many :invoice_items, through: :items
   validates :name, presence: true
 
   enum status: {
@@ -73,4 +74,8 @@ class Merchant < ApplicationRecord
   def created_at_formatted
     date_created.strftime("%A, %B %d, %Y")
   end
+  #
+  # def find_discounts
+  #   invoice_items.applicable_discounts
+  # end
 end
