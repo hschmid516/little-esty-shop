@@ -1,6 +1,6 @@
 class Discounter
-  def initialize(merchant)
-    @merchant = merchant
+  def initialize(invoice)
+    @invoice = invoice
   end
 
   def self.call(*args)
@@ -8,8 +8,11 @@ class Discounter
   end
 
   def apply_discount
-    @merchant&.find_discounts&.each do |item_discount|
-      InvoiceItem.find_by_id(item_discount[0]).update(discount: item_discount[1])
+    @invoice&.applicable_discounts&.each do |invoice_item|
+      ii = InvoiceItem.find_by_id(invoice_item.id)
+      if ii.discount.nil?
+        ii.update(discount: invoice_item.percentage, discount_id: invoice_item.discount_id)
+      end
     end
   end
 end
