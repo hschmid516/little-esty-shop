@@ -75,11 +75,7 @@ class Merchant < ApplicationRecord
     date_created.strftime("%A, %B %d, %Y")
   end
   #
-  # def sorted_discounts
-  #   discounts.order(:threshold)
+  # def find_discounts
+  #   invoice_items.applicable_discounts
   # end
-
-  def find_discounts
-    invoice_items.applicable_discount
-  end
 end

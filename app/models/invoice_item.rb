@@ -9,18 +9,11 @@ class InvoiceItem < ApplicationRecord
     shipped: 2
   }
 
-  def self.applicable_discount
-    joins(item: { merchant: :discounts })
-         .where('invoice_items.quantity >= discounts.threshold')
-         .group(:id)
-         .maximum('discounts.percentage')
-  end
-
   def self.find_by_id(id)
     find(id)
   end
 
-  def find_discount(percent)
-    Discount.find_by(percentage: percent)
+  def find_discount(discount_id)
+    Discount.find(discount_id)
   end
 end
