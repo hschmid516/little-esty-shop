@@ -21,8 +21,13 @@ class DiscountsController < ApplicationController
   end
 
   def destroy
-    @discount.destroy
-    redirect_to merchant_discounts_path(@merchant)
+    if !@discount.pending_invoice_items?
+      @discount.destroy
+      redirect_to merchant_discounts_path(@merchant)
+    else
+      redirect_to merchant_discounts_path(@merchant)
+      flash[:danger] = "This discount is applied to an item that is pending - Can't delete discount!"
+    end
   end
 
   private
