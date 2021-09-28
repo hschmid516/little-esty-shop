@@ -16,6 +16,8 @@ RSpec.describe 'merchant bulk discounts index' do
     @disc1 = @merch1.discounts.create(name: 'Fall Special', percentage: 0.25, threshold: 20)
     @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.40, threshold: 35)
     @disc3 = @merch2.discounts.create(name: 'Other Discount', percentage: 0.50, threshold: 5)
+    Discounter.call(@invoice1)
+    Discounter.call(@invoice2)
     @json = File.read('spec/fixtures/holidays.json')
     stub_request(:get, "https://date.nager.at/api/v2/NextPublicHolidays/us").
       to_return(status: 200, body: @json)
@@ -78,9 +80,6 @@ RSpec.describe 'merchant bulk discounts index' do
   end
 
   it 'only deletes discount if no pending invoice_items' do
-    Discounter.call(@invoice1)
-    Discounter.call(@invoice2)
-
     within("#discount-#{@disc1.id}") do
       click_link('Delete')
     end
