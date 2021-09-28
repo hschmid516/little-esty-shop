@@ -20,7 +20,7 @@
       <tr>
         <td><%= invoice_item.item.name %>
           <% unless invoice_item.discount.nil? %>
-            - Discount Applied: <%= link_to "#{invoice_item.discount * 100}% (#{invoice_item.find_discount(invoice_item.discount).name})", merchant_discount_path(invoice_item.find_discount(invoice_item.discount)) %>
+            - Discount Applied: <%= link_to "#{invoice_item.discount * 100}% (#{invoice_item.find_discount(invoice_item.discount_id).name})", merchant_discount_path(@merchant, id: invoice_item.discount_id) %>
           <% end %></td>
         <td><%= invoice_item.quantity %></td>
         <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id).fdiv(100)) %></td>
