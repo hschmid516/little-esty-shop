@@ -8,7 +8,7 @@ class Discounter
   end
 
   def apply_discount
-    @invoice&.applicable_discounts&.each do |invoice_item|
+    @invoice.applicable_discounts.each do |invoice_item|
       ii = InvoiceItem.find_by_id(invoice_item.id)
       if ii.discount.nil?
         ii.update(discount: invoice_item.percentage, discount_id: invoice_item.discount_id)

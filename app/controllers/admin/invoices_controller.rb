@@ -5,5 +5,6 @@ class Admin::InvoicesController < AdminController
 
   def show
     @invoice = Invoice.find(params[:id])
+    Discounter.call(@invoice)
   end
 end
