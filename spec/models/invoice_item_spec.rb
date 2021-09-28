@@ -63,15 +63,12 @@ RSpec.describe InvoiceItem, type: :model do
     @disc4 = @merch2.discounts.create(name: 'Lame Deal', percentage: 0.05, threshold: 100)
   end
 
-  it '#applicable_discount' do
-    expect(InvoiceItem.applicable_discount).to eq({@ii1.id=>0.5, @ii3.id=>0.75})
-  end
 
   it '#find_by_id' do
     expect(InvoiceItem.find_by_id(@ii1.id)).to eq(@ii1)
   end
 
   it '#find_discount' do
-    expect(@ii1.find_discount(0.75)).to eq(@disc3)
+    expect(@ii1.find_discount(@disc3.id)).to eq(@disc3)
   end
 end
