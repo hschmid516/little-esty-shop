@@ -16,8 +16,13 @@ class DiscountsController < ApplicationController
   end
 
   def update
-    @discount.update(discount_params)
-    redirect_to merchant_discount_path(@merchant, @discount)
+    if !@discount.pending_invoice_items?
+      @discount.update(discount_params)
+      redirect_to merchant_discount_path(@merchant, @discount)
+    else
+      redirect_to edit_merchant_discount_path(@merchant, @discount)
+      flash[:danger] = "This discount is applied to an item that is pending - Can't edit discount!"
+    end
   end
 
   def destroy
