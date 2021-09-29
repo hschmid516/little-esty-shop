@@ -24,4 +24,9 @@ RSpec.describe Discount do
     expect(@disc1.pending_invoice_items?).to be true
     expect(@disc2.pending_invoice_items?).to be false
   end
+
+  it '#discount_applicable?' do
+    expect(Discount.discount_applicable?({threshold: 40, percentage: 0.5}, @merch1.id)).to eq(true)
+    expect(Discount.discount_applicable?({threshold: 30, percentage: 0.1}, @merch1.id)).to eq(false)
+  end
 end

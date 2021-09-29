@@ -13,7 +13,8 @@ RSpec.describe 'merchant bulk discounts edit page' do
     @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 20, unit_price: 4000)
     @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1, quantity: 30, unit_price: 1000)
     @disc1 = @merch1.discounts.create(name: 'Fall Special', percentage: 0.25, threshold: 25)
-    @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.40, threshold: 5)
+    @disc2 = @merch1.discounts.create(name: 'Super Saver', percentage: 0.40, threshold: 35)
+    @disc3 = @merch1.discounts.create(name: 'Junior Saver', percentage: 0.05, threshold: 10)
     Discounter.call(@invoice1)
     Discounter.call(@invoice2)
     visit edit_merchant_discount_path(@merch1, @disc1)
@@ -54,12 +55,21 @@ RSpec.describe 'merchant bulk discounts edit page' do
   end
 
   it 'only edits discount if no pending invoice_items' do
-    visit edit_merchant_discount_path(@merch1, @disc2)
+    visit edit_merchant_discount_path(@merch1, @disc3)
     fill_in('Name', with: 'Super Deal')
     click_button('Update Discount')
-
-    expect(current_path).to eq(edit_merchant_discount_path(@merch1, @disc2))
+    save_and_open_page
+    expect(current_path).to eq(edit_merchant_discount_path(@merch1, @disc3))
     expect(page).to have_content("This discount is applied to an item that is pending - Can't edit discount!")
-    expect(page).to have_content('Super Saver')
+    expect(page).to have_content('Junior Saver')
+  end
+
+  it 'doesnt edit discount if a better one exists' do
+    fill_in('Discount Percentage', with: 0.2)
+    fill_in('Quantity Threshold', with: 30)
+    click_button('Update Discount')
+
+    expect(current_path).to eq(edit_merchant_discount_path(@merch1, @disc1))
+    expect(page).to have_content("There's already a better deal than this...Try again.")
   end
 end
