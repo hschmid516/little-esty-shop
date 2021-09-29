@@ -89,5 +89,3 @@ RSpec.describe 'merchant bulk discounts index' do
     expect(page).to have_content("This discount is applied to an item that is pending - Can't delete discount!")
   end
 end
-
-# save_and_open_page

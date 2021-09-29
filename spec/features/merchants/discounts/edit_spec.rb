@@ -58,7 +58,7 @@ RSpec.describe 'merchant bulk discounts edit page' do
     visit edit_merchant_discount_path(@merch1, @disc3)
     fill_in('Name', with: 'Super Deal')
     click_button('Update Discount')
-    save_and_open_page
+
     expect(current_path).to eq(edit_merchant_discount_path(@merch1, @disc3))
     expect(page).to have_content("This discount is applied to an item that is pending - Can't edit discount!")
     expect(page).to have_content('Junior Saver')
