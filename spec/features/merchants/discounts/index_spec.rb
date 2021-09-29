@@ -27,7 +27,7 @@ RSpec.describe 'merchant bulk discounts index' do
   it 'shows all discounts with %, thresholds, link' do
     within("#discount-#{@disc1.id}") do
       expect(page).to have_content(@disc1.name)
-      expect(page).to have_content(@disc1.percentage)
+      expect(page).to have_content("#{@disc1.percentage * 100}%")
       expect(page).to have_content(@disc1.threshold)
       click_link(@disc1.name)
     end
@@ -38,7 +38,7 @@ RSpec.describe 'merchant bulk discounts index' do
 
     within("#discount-#{@disc2.id}") do
       expect(page).to have_content(@disc2.name)
-      expect(page).to have_content(@disc2.percentage)
+      expect(page).to have_content("#{@disc2.percentage * 100}%")
       expect(page).to have_content(@disc2.threshold)
       click_link(@disc2.name)
     end
@@ -89,5 +89,3 @@ RSpec.describe 'merchant bulk discounts index' do
     expect(page).to have_content("This discount is applied to an item that is pending - Can't delete discount!")
   end
 end
-
-# save_and_open_page

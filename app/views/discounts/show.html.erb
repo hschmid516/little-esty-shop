@@ -3,7 +3,7 @@
 <div id="discount">
   <h3><%= @discount.name %></h3>
   <ul>
-    <li>Percentage Discount: <%= @discount.percentage %></li>
+    <li>Percentage Discount: <%= @discount.percentage * 100 %>%</li>
     <li>Quantity Threshold: <%= @discount.threshold %></li>
   </ul>
 </div>

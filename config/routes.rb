@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :merchants do
     get "/dashboard", controller: :merchants, action: :show, as: "dashboard"
-    resources :items, controller: :merchant_items, except: :destroy
-    resources :invoices, controller: :merchant_invoices, except: :destroy
+    resources :items, controller: :items, except: :destroy
+    resources :invoices, controller: :invoices, except: :destroy
     resources :discounts
   end
 

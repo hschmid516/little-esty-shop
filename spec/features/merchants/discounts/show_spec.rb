@@ -11,10 +11,10 @@ RSpec.describe 'merchant bulk discounts show page' do
   it 'shows the discount threshold and percentage' do
     within("#discount") do
       expect(page).to have_content(@disc1.name)
-      expect(page).to have_content(@disc1.percentage)
+      expect(page).to have_content("#{@disc1.percentage * 100}%")
       expect(page).to have_content(@disc1.threshold)
       expect(page).to_not have_content(@disc2.name)
-      expect(page).to_not have_content(@disc2.percentage)
+      expect(page).to_not have_content("#{@disc2.percentage * 100}%")
       expect(page).to_not have_content(@disc2.threshold)
     end
   end

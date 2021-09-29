@@ -19,7 +19,7 @@ RSpec.describe 'new discounts page' do
     expect(current_path).to eq(merchant_discounts_path(@merch1))
 
     expect(page).to have_content('Ultra Saver')
-    expect(page).to have_content(0.75)
+    expect(page).to have_content('75.0%')
     expect(page).to have_content(4)
   end
 
