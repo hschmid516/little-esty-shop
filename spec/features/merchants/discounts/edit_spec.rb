@@ -48,7 +48,7 @@ RSpec.describe 'merchant bulk discounts edit page' do
 
     within("#discount") do
       expect(page).to have_content('Super Deal')
-      expect(page).to have_content(0.5)
+      expect(page).to have_content('50.0%')
       expect(page).to have_content(6)
       expect(page).to_not have_content(@disc1.name)
     end
