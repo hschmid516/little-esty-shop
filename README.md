@@ -16,13 +16,16 @@
 
 ### <ins>Overview</ins>
 
-[Little Esty Shop](https://github.com/hschmid516/little-esty-shop) is a 10-day, 4 person project, during Mod 2 of 4 for Turing School's Back End Engineering Program.
+[Little Esty Shop](https://github.com/hschmid516/little-esty-shop) is a 10-day, 4 person project, during Module 2 of 4 for Turing School's Back End Engineering Program.
 
-Our challenge was to build a functioning web app consisting of multiple relational databases to model the popular e-commerce web site *Little Etsy Shop*.
+Our challenge was to build a functioning web app consisting of multiple relational databases to model the popular e-commerce web site *Etsy*.
 
 Little Esty Shop allowed us to apply priniciples of flow control across multiple methods, design one-to-many relationships using [DB Designer](https://www.dbdesigner.net/), and write migrations to create tables with columns of varying data types and foreign keys. Ruby on Rails helped give us a framework to create instance and class methods on a Rails model that uses ActiveRecord methods and helpers, letting our users experience CRUD functionality through our application. By maintaining a TDD mindset, we were able to make sure our features and models were being test consitently throughout the development process.
 
+This project includes a "Bulk Discounts" extension that was built individually as the final project for Module 2 at Turing. Functionality was added to create bulk discounts for items, with an emphasis on TDD and MVC.
+
 [Technical Requirements](https://github.com/turingschool-examples/little-esty-shop/blob/main/doc/user_stories.md)
+[Bulk Discount Individual Extention Requirements](https://backend.turing.edu/module2/projects/bulk_discounts)
 
 #### Framework
 <p>
@@ -122,8 +125,8 @@ Little Esty Shop allowed us to apply priniciples of flow control across multiple
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </p>
 
-- [Andrew Massey](https://www.linkedin.com/in/andrew-massey-b06662194/)
 - [Henry Schmid](https://www.linkedin.com/in/henry-schmid)
+- [Andrew Massey](https://www.linkedin.com/in/andrew-massey-b06662194/)
 - [Kevin Mugele](https://www.linkedin.com/in/kevinmugele/)
 - [Khoi Nguyen](https://www.linkedin.com/in/khoifishpond/)
 
@@ -131,7 +134,7 @@ Little Esty Shop allowed us to apply priniciples of flow control across multiple
   <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </p>
 
-- [Andrew Massey](https://github.com/acmassey3698)
 - [Henry Schmid](https://github.com/hschmid516)
+- [Andrew Massey](https://github.com/acmassey3698)
 - [Kevin Mugele](https://github.com/kevinmugele)
 - [Khoi Nguyen](https://github.com/khoifishpond)
