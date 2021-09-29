@@ -1,6 +1,9 @@
 class Discount < ApplicationRecord
   belongs_to :merchant
   has_many :invoice_items, through: :merchant
+  validates :name, presence: true
+  validates :percentage, presence: true
+  validates :threshold, presence: true
 
   def pending_invoice_items?
     !invoice_items.where(status: 0, discount_id: id).empty?

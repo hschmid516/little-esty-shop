@@ -23,6 +23,16 @@ RSpec.describe 'new discounts page' do
     expect(page).to have_content(4)
   end
 
+  it 'shows flash message if missing info' do
+    fill_in('Discount Percentage', with: 0.75)
+    fill_in('Quantity Threshold', with: 4)
+    click_button('Create Discount')
+
+    expect(current_path).to eq(new_merchant_discount_path(@merch1))
+
+    expect(page).to have_content('Discount not created. Information missing')
+  end
+
   it 'doesnt create new discount if a better one exists' do
     fill_in('Name', with: 'Ultra Saver')
     fill_in('Discount Percentage', with: 0.15)

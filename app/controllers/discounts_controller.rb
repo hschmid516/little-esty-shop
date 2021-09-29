@@ -12,8 +12,14 @@ class DiscountsController < ApplicationController
 
   def create
     if Discount.discount_applicable?(discount_params, @merchant.id)
-      @merchant.discounts.create(discount_params)
-      redirect_to merchant_discounts_path(@merchant)
+      discount = @merchant.discounts.create(discount_params)
+      if discount.save
+        redirect_to merchant_discounts_path(@merchant)
+        flash[:notice] = "Discount has been created succesfully"
+      else
+        flash[:notice] = "Discount not created. Information missing"
+        redirect_to new_merchant_discount_path(@merchant, @discount)
+      end
     else
       redirect_to new_merchant_discount_path(@merchant, @discount)
       flash[:danger] = "There's already a better deal than this...Try again."
