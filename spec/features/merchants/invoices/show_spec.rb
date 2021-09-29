@@ -17,7 +17,7 @@ RSpec.describe 'Merchant Invoices Show page' do
     @item4 = create(:item, merchant: @merch2)
     @item5 = create(:item, merchant: @merch2)
     @item6 = create(:item, merchant: @merch2)
-    @invoice1 = create(:invoice, customer: @cust1)
+    @invoice1 = create(:invoice, customer: @cust1, status: 2)
     @invoice2 = create(:invoice, customer: @cust2)
     @invoice3 = create(:invoice, customer: @cust3)
     @invoice4 = create(:invoice, customer: @cust4)
